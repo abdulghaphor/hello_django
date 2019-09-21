@@ -22,15 +22,16 @@ class UserManager(BaseUserManager):
 			password = password,
 			staff = True,
 			)
+		user_obj.set_password(password),
 		user_obj.save(using=self._db)
 		return user_obj
 	def create_superuser(self, email, password):
 		user_obj = self.model(
 			email = self.normalize_email(email),
-			password = password,
 			staff = True,
 			admin = True,
 			)
+		user_obj.set_password(password),
 		user_obj.save(using=self._db)
 		return user_obj
 

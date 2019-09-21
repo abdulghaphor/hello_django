@@ -1,14 +1,15 @@
 from rest_framework import serializers
-from .models import *
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from django.conf import settings
 from rest_framework_jwt.settings import api_settings
 
-
-class UserCreateSerializer(serializers.ModelSerializer):
+class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    token = serializers.CharField(read_only=True)
     class Meta:
         model = User
-        fields = ['email', 'password','first_name','last_name']
+        fields = ['email', 'password','first_name','last_name','token']
 
     def create(self, validated_data):
         email = validated_data['email']
@@ -20,20 +21,14 @@ class UserCreateSerializer(serializers.ModelSerializer):
         new_user.save()
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
         payload = jwt_payload_handler(new_user)
         token = jwt_encode_handler(payload)
+
         validated_data['token'] = token
         return validated_data
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['email','first_name','last_name']
-
-
-
-
-class UserLoginSerializer(serializers.Serializer):
+class LoginSerializer(serializers.Serializer):
     email = serializers.CharField()
     password = serializers.CharField(write_only=True)
     token = serializers.CharField(allow_blank=True, read_only=True)
@@ -58,3 +53,24 @@ class UserLoginSerializer(serializers.Serializer):
 
         data["token"] = token
         return data
+
+class DetailsSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(read_only=True)
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name']
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+class ListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'first_name','last_name']
+
+
+
+
+

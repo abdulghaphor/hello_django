@@ -24,7 +24,7 @@ SECRET_KEY = '#zdr#2mz@_$rn6e-0y%d1$%4^$2-pt%(t+h8@okr90%2v3j&*r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['157.245.76.95','muffinbase.com','www.muffinbase.com']
+ALLOWED_HOSTS = ['157.245.76.95','muffinbase.com','www.muffinbase.com','*']
 
 
 # Application definition
@@ -38,9 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', #for APIs
     'corsheaders', #testing with ReactJS
+    'products',
     'accounts', #user created accounts and whatnot
-    'rest_framework.authtoken', #creates authtoken
-'cars',
+    'cart', #cart management app
+    'payment',
 ]
 
 MIDDLEWARE = [
