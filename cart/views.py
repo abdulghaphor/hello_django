@@ -12,11 +12,11 @@ class CartHandler(APIView):
 	permission_classes = [IsAuthenticated]
 	serializer_class = CartItemSerializer
 	def get(self, request, format=None):
-		cart = get_object_or_404(Cart, user=self.request.user, status='A')
+		cart, created = Cart.objects.get_or_create(user=self.context['request'].user,status='A')
 		serializer = CartSerializer(cart)
 		return Response(serializer.data, status=status.HTTP_200_OK)
 	def delete(self,request,format=None):
-		cart = get_object_or_404(Cart, user=self.request.user, status='A')
+		cart, created = Cart.objects.get_or_create(user=self.context['request'].user,status='A')
 		if 'product' in request.data:
 			cart_item = get_object_or_404(CartItem, cart=cart, product=request.data['product'])
 			cart_item.delete()
