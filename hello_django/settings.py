@@ -24,7 +24,7 @@ SECRET_KEY = '#zdr#2mz@_$rn6e-0y%d1$%4^$2-pt%(t+h8@okr90%2v3j&*r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['157.245.76.95','muffinbase.com','www.muffinbase.com','*']
+ALLOWED_HOSTS = ['127.0.0.1', '157.245.76.95','muffinbase.com','www.muffinbase.com','*']
 
 
 # Application definition
@@ -94,18 +94,24 @@ WSGI_APPLICATION = 'hello_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+# 	'ENGINE':'django.db.backends.postgresql',
+# 	'NAME':'django',
+# 	'USER':'django',
+# 	'PASSWORD':'django',
+# 	'HOST':'localhost',
+# 	'PORT':'',
+
+#     }
+# }
+
 DATABASES = {
     'default': {
-	'ENGINE':'django.db.backends.postgresql',
-	'NAME':'django',
-	'USER':'django',
-	'PASSWORD':'django',
-	'HOST':'localhost',
-	'PORT':'',
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

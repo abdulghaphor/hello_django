@@ -65,7 +65,7 @@ class Product(models.Model):
 	create_date = models.DateField(auto_now_add=True)
 	
 	def __str__(self):
-		return "%s: %s/%s" % (self.pk, self.maker, self.model)
+		return "%s: %s/%s" % (self.pk, self.manufacturer, self.model)
 
 
 # class Region(models.Model):
