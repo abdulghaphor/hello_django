@@ -10,9 +10,8 @@ class UserManager(BaseUserManager):
 			raise ValueError("Password required.")			
 		user_obj = self.model(
 			email = self.normalize_email(email),
+			password = password,
 			)
-		print(password)
-		user_obj.set_password(password)
 		user_obj.save(using=self._db)
 		return user_obj
 	
@@ -22,16 +21,15 @@ class UserManager(BaseUserManager):
 			password = password,
 			staff = True,
 			)
-		user_obj.set_password(password),
 		user_obj.save(using=self._db)
 		return user_obj
 	def create_superuser(self, email, password):
 		user_obj = self.model(
 			email = self.normalize_email(email),
+			password = password,
 			staff = True,
 			admin = True,
 			)
-		user_obj.set_password(password),
 		user_obj.save(using=self._db)
 		return user_obj
 
@@ -71,3 +69,15 @@ class User(AbstractBaseUser):
 
 	def has_module_perms(self, app_label):
 		return self.is_admin
+
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=User)
+def encrypt_password(sender, created, instance, **kwargs):
+	if created:
+		unencrypted_password = instance.password
+		instance.set_password(unencrypted_password)
+		instance.save()
+		print(instance.password)

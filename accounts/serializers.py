@@ -16,8 +16,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         first_name = validated_data['first_name']
         last_name = validated_data['last_name']        
         password = validated_data['password']
-        new_user = User(email=email,first_name=first_name,last_name=last_name)
-        new_user.set_password(password)
+        new_user = User(email=email,first_name=first_name,last_name=last_name,password=password)
         new_user.save()
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
