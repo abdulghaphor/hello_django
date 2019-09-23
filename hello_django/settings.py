@@ -24,7 +24,7 @@ SECRET_KEY = '#zdr#2mz@_$rn6e-0y%d1$%4^$2-pt%(t+h8@okr90%2v3j&*r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['157.245.76.95','muffinbase.com','www.muffinbase.com','*']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', #for APIs
-    'corsheaders', #testing with ReactJS
     'products',
     'accounts', #user created accounts and whatnot
     'cart', #cart management app
@@ -68,8 +67,6 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=12),
 }
 
-CORS_ORIGIN_ALLOW_ALL = True #remove
-
 ROOT_URLCONF = 'hello_django.urls'
 
 TEMPLATES = [
@@ -96,15 +93,11 @@ WSGI_APPLICATION = 'hello_django.wsgi.application'
 
 DATABASES = {
     'default': {
-	'ENGINE':'django.db.backends.postgresql',
-	'NAME':'django',
-	'USER':'postgres',
-	'PASSWORD':'root',
-	'HOST':'localhost',
-	'PORT':'',
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 
 # Password validation
