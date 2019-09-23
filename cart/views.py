@@ -39,6 +39,13 @@ class CartHandler(APIView):
 			return Response(serializer.data, status=status.HTTP_200_OK)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class Checkout(APIView):
+	permission_classes = [IsAuthenticated]
+	def get(self, request, format=None):
+		cart = get_object_or_404(Cart,user=request.user,status='A')
+		serializer = CheckoutSerializer(cart)
+		return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 ###LEGACY CODE
 # #post
