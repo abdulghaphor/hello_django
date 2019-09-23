@@ -12,7 +12,7 @@ class List(APIView):
 	permission_classes = [AllowAny]
 	def get(self, request, format=None):
 		products = Product.objects.all()
-		serializer = ProductSerializer(products, many=True)
+		serializer = ProductSerializer(products,context={"request": request}, many=True)
 		return Response(serializer.data)
 
 class Details(APIView):
@@ -20,7 +20,7 @@ class Details(APIView):
 
 	def get(self, request, pk, format=None):
 		product = self.get_object(pk)
-		serializer = DetailsSerializer(product)
+		serializer = DetailsSerializer(product,context={"request": request})
 		return Response(serializer.data)
 
 	def get_object(self,pk):
