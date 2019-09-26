@@ -52,3 +52,18 @@ class CheckoutSerializer(serializers.ModelSerializer):
 		obj.status = 'P'
 		obj.save()
 		return obj.status
+
+class HistorySerializer(serializers.ModelSerializer):
+	status = serializers.SerializerMethodField()
+	cart_items = serializers.SerializerMethodField()
+	total = serializers.SerializerMethodField()
+	class Meta: 
+		model = Cart
+		fields = ['cart_items','total','status']
+	def get_cart_items(self, obj):
+		cartitem = obj.view()
+		return CartItemSerializer(cartitem, many=True).data
+	def get_total(self, obj):
+		return obj.get_total()
+	def get_status(self,obj):
+		return obj.status

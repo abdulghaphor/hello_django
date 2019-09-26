@@ -9,5 +9,6 @@ urlpatterns = [
 	# path('edit/', _.Edit.as_view(),name='edit'),
 	# path('list/', _.List.as_view(),name='list'),
 	path('', CartHandler.as_view(),name='handler'),
-	path('checkout/', Checkout.as_view(),name='checkout'),	
+	path('checkout/', Checkout.as_view(),name='checkout'),
+	path('history/', History.as_view(),name='history'),
 ]

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 #WILL TRY OPTIMIZING BY USING MODELVIEWSET LATER
 class CartHandler(APIView):
@@ -16,17 +16,17 @@ class CartHandler(APIView):
 		serializer = CartSerializer(cart)
 		return Response(serializer.data, status=status.HTTP_200_OK)
 	def delete(self,request,format=None):
+		print(request.data)
 		cart, created = Cart.objects.get_or_create(user=request.user,status='A')
 		if 'product' in request.data:
 			cart_item = get_object_or_404(CartItem, cart=cart, product=request.data['product'])
 			cart_item.delete()
-			return Response("Cart Item Deleted.", status=status.HTTP_204_NO_CONTENT)
+			return Response(status=status.HTTP_204_NO_CONTENT)
 		else:
 			cart.delete()
-			return Response("Cart Deleted.", status=status.HTTP_204_NO_CONTENT)
+			return Response(status=status.HTTP_204_NO_CONTENT)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	def post(self,request):
-		print(request.data)
 		serializer = CartItemSerializer(data=request.data,context={'request':request})
 		if serializer.is_valid():
 			serializer.save()
@@ -41,10 +41,15 @@ class CartHandler(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Checkout(APIView):
-	permission_classes = [IsAuthenticated]
 	def get(self, request, format=None):
 		cart = get_object_or_404(Cart,user=request.user,status='A')
 		serializer = CheckoutSerializer(cart)
+		return Response(serializer.data, status=status.HTTP_200_OK)
+class History(APIView):
+	def get(self, request, format=None):
+		print(request.user)
+		carts = get_list_or_404(Cart,user=request.user,status='P')
+		serializer = HistorySerializer(carts,many=True)
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
 
