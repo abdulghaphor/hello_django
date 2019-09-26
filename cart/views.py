@@ -25,7 +25,8 @@ class CartHandler(APIView):
 			cart.delete()
 			return Response("Cart Deleted.", status=status.HTTP_204_NO_CONTENT)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	def post(self,request,format=None):
+	def post(self,request):
+		print(request.data)
 		serializer = CartItemSerializer(data=request.data,context={'request':request})
 		if serializer.is_valid():
 			serializer.save()

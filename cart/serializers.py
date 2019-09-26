@@ -4,6 +4,7 @@ from .models import *
 class CartItemSerializer(serializers.ModelSerializer):
 	unit_price = serializers.CharField(read_only=True)
 	sub_total = serializers.CharField(read_only=True)	
+	quantity = serializers.IntegerField(default=1, initial=1)
 	class Meta:
 		model = CartItem
 		fields = ['product','unit_price','quantity','sub_total']
