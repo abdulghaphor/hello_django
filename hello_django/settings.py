@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts', #user created accounts and whatnot
     'cart', #cart management app
     'payment',
+    'notification', #notification app
 ]
 
 MIDDLEWARE = [
