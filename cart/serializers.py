@@ -29,7 +29,7 @@ class CartSerializer(serializers.ModelSerializer):
 	total = serializers.SerializerMethodField()
 	class Meta: 
 		model = Cart
-		fields = ['cart_items','total']
+		fields = ['cart_items','total','create_date']
 	def get_cart_items(self, obj):
 		cartitem = obj.view()
 		return CartItemSerializer(cartitem, many=True).data
@@ -42,7 +42,7 @@ class CheckoutSerializer(serializers.ModelSerializer):
 	total = serializers.SerializerMethodField()
 	class Meta: 
 		model = Cart
-		fields = ['cart_items','total','status']
+		fields = ['cart_items','total','status','create_date']
 	def get_cart_items(self, obj):
 		cartitem = obj.view()
 		return CartItemSerializer(cartitem, many=True).data
@@ -59,7 +59,7 @@ class HistorySerializer(serializers.ModelSerializer):
 	total = serializers.SerializerMethodField()
 	class Meta: 
 		model = Cart
-		fields = ['cart_items','total','status']
+		fields = ['cart_items','total','status','create_date']
 	def get_cart_items(self, obj):
 		cartitem = obj.view()
 		return CartItemSerializer(cartitem, many=True).data
